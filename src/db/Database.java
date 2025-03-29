@@ -10,13 +10,13 @@ public class Database {
     public static void add(Entity entity) {
         i++;
         entity.id=i;
-        entities.add(entity);
+        entities.add(entity.copy());
 
     }
     public static Entity get(int id) {
         for (Entity entity : entities) {
             if (entity.id == id) {
-            return entity;
+            return entity.copy();
             }
         }
         var excepation = new EntityNotFoundException(id);
@@ -30,7 +30,7 @@ public class Database {
         for(Entity entity : entities) {
             if(entity.id == e.id) {
                 status=1;
-                entities.set(e.id,e);
+                entities.set(e.id,e.copy());
             }
         }
         if(status == 0) {
