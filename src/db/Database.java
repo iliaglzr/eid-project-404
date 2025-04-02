@@ -14,10 +14,10 @@ public class Database {
         i++;
         entity.id=i;
         Validator validator = validators.get(entity.getEntityCode());
-        if (validator == null) {
-            throw new IllegalArgumentException("No validator found for entityCode " + entity.getEntityCode());
+        if (validator != null) {
+            validator.validate(entity);
         }
-        validator.validate(entity);
+
         entities.add(entity.copy());
 
     }
@@ -38,18 +38,21 @@ public class Database {
 
             Validator validator = validators.get(e.getEntityCode());
 
-            if (validator == null) {
-                throw new IllegalArgumentException("No validator found for entityCode " + e.getEntityCode());
+            if (validator != null) {
+                validator.validate(e);
             }
 
-            validator.validate(e);
-
-        for(Entity entity : entities) {
-            if(entity.id == e.id) {
-                status=1;
-                entities.set(e.id,e.copy());
+            boolean updated = false;
+            for (int i = 0; i < entities.size(); i++) {
+                if (entities.get(i).id == e.id) {
+                    status=1;
+                    entities.set(i, e.copy());
+                    updated = true;
+                    break;
+                }
             }
-        }
+
+
         if(status == 0) {
             var excepation = new EntityNotFoundException ("EntityNotFoundException");
             throw excepation;
