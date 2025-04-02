@@ -20,6 +20,7 @@ public class Database {
         if (validator != null) {
             validator.validate(entity);
         }
+
         entities.add(entity.copy());
         if (entity instanceof Trackable trackable) {
             Date now = new Date();
@@ -62,6 +63,7 @@ public class Database {
                 trackable.setCreationDate(now);
                 trackable.setLastModificationDate(now);
             }
+
         if(status == 0) {
             var excepation = new EntityNotFoundException ("EntityNotFoundException");
             throw excepation;
