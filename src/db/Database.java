@@ -9,7 +9,7 @@ import java.util.HashMap;
 
 public class Database {
     public static int i=0;
-    private static ArrayList<Entity>entities=new ArrayList<>();
+    public static ArrayList<Entity>entities=new ArrayList<>();
     private static HashMap<Integer, Validator> validators=new HashMap<>();
 
     public static void add(Entity entity) throws InvalidEntityException {
@@ -41,7 +41,7 @@ public class Database {
         throw excepation;
     }
     public static void delete (int id ) {
-        entities.removeIf( entity-> entity.id == id);
+        entities.removeIf( entity-> entity.copy().id == id);
         }
         public static void update (Entity e) throws InvalidEntityException {
         int status=0;
@@ -76,6 +76,14 @@ public class Database {
             }
             validators.put(entityCode, validator);
     }
-
+    public static ArrayList<Entity> getAll(int entityCode) {
+        ArrayList<Entity> result = new ArrayList<>();
+        for (Entity entity : entities) {
+            if (entity.getEntityCode()==entityCode) {
+                result.add(entity);
+            }
+        }
+        return result;
+    }
     }
 
